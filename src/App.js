@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import {getCurrentAdmin} from "./services/adminLoginService";
 import jwtDecode from "jwt-decode";
 import AdminLoginForm from "./admin/admin/adminLoginForm";
+import AdminPanel from "./admin/admin/adminPanel";
+import AdminRegisterForm from "./admin/admin/adminRegisterForm";
 
 class App extends Component {
     constructor(props) {
@@ -30,6 +32,11 @@ class App extends Component {
             <ToastContainer/>
             <Switch>
                 <Route path="/adminlogin" component={AdminLoginForm}/>
+                {this.state.admin &&
+                <Switch>
+                    <Route path="/adminregister" component={AdminRegisterForm}/>
+                    <Route path="/admin" component={AdminPanel}/>
+                </Switch>}
             </Switch>
         </div>
     );

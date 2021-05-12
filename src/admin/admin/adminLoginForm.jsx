@@ -66,6 +66,10 @@ class AdminLoginForm extends Component {
         });
 
         this.setState({isDisabled: true});
+        setTimeout(function () {
+            window.location.href="/admin";
+        },1000);
+
     }
 
 
@@ -83,9 +87,11 @@ class AdminLoginForm extends Component {
         return errors;
     }
 
+
     render() {
         return (
             <div>
+                {!this.state.loggedAdmin &&
                 <AdminLoginComponent
                     adminEmail={this.state.adminEmail}
                     adminPassword={this.state.adminPassword}
@@ -93,10 +99,12 @@ class AdminLoginForm extends Component {
                     errors={this.state.errors}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}/>
+                }
                 {this.state.loggedAdmin &&
                 <h2>
                     YOU ARE ALREADY LOGGED IN!
-                </h2>}
+                </h2>
+                }
             </div>
         );
     }
