@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Form, FormGroup, FormControl, FormCheck, FormLabel} from "react-bootstrap";
+import * as PropTypes from "prop-types";
 
 
 function AdminRegisterComponent(props) {
@@ -62,6 +63,7 @@ function AdminRegisterComponent(props) {
                 </FormLabel>
                 }
                 <FormCheck
+                    checked={admin.isAdmin}
                     id="isAdmin"
                     label="Declare Admin rights"
                     name="isAdmin"
@@ -78,6 +80,14 @@ function AdminRegisterComponent(props) {
 
         </Form>
     );
+}
+
+AdminRegisterComponent.propTypes = {
+    admin: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 }
 
 export default AdminRegisterComponent;

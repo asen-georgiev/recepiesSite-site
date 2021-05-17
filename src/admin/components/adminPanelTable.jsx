@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import * as PropTypes from "prop-types";
 import {Table} from "react-bootstrap";
 
 function AdminPanelTable(props) {
@@ -33,6 +34,10 @@ function AdminPanelTable(props) {
             </tbody>
         </Table>
     );
+}
+
+AdminPanelTable.propTypes = {
+    tabs: PropTypes.array.isRequired
 }
 
 export default AdminPanelTable;

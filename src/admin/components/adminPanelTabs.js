@@ -3,9 +3,9 @@ const table = [
         _id: 1,
         name: 'Admins',
         link1Name: 'Register',
-        link1To: '/adminregister',
+        link1To: '/admin/adminregister',
         link2Name: 'All Admins list',
-        link2To: '/'
+        link2To: '/admin/adminlist'
     },
     {
         _id: 2,
