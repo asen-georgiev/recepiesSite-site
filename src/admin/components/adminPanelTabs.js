@@ -11,7 +11,7 @@ const table = [
         _id: 2,
         name: 'Users',
         link1Name: 'Register',
-        link1To: '/',
+        link1To: '/admin/userregister',
         link2Name: 'All Users list',
         link2To: '/'
     }

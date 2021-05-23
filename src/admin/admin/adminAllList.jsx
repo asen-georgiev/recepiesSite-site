@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {deleteAdmin, getAllAdmins} from "../../services/adminService";
 import TableComponent from "../components/tableComponent";
 import {toast, Zoom} from "react-toastify";
+import {Button} from "react-bootstrap";
 
 class AdminAllList extends Component {
     constructor(props) {
@@ -47,9 +48,19 @@ class AdminAllList extends Component {
         }
     }
 
+
+    //I am redirecting back to Admin Panel
+    adminRedirect = () =>{
+        this.props.history.push("/admin");
+    }
+
     render() {
         return (
             <div>
+                <Button
+                onClick={this.adminRedirect}>
+                    BACK TO ADMIN PANEL
+                </Button>
                 <TableComponent
                     handleDelete={this.handleDelete}
                     items={this.state.admins}
