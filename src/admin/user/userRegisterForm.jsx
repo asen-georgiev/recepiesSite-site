@@ -4,7 +4,7 @@ import {toast,Zoom} from "react-toastify";
 import {registerUserAdmin} from "../../services/userService";
 import UserRegisterComponent from "../components/userRegisterComponent";
 import {uploadImageAdmin} from "../../services/imageService";
-import {Image} from "react-bootstrap";
+import {Button, Image} from "react-bootstrap";
 
 class UserRegisterForm extends Component {
     constructor(props) {
@@ -152,9 +152,17 @@ class UserRegisterForm extends Component {
         return errors;
     }
 
+    adminRedirect = () => {
+        this.props.history.push("/admin");
+    }
+
     render() {
         return (
             <div>
+                <Button
+                onClick={this.adminRedirect}>
+                    BACK TO ADMIN PANEL
+                </Button>
 
                 {this.state.visiblePicture &&
                 <Image
