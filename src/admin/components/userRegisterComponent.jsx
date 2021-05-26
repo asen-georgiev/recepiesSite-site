@@ -15,7 +15,7 @@ function UserRegisterComponent(props) {
                 </FormLabel>}
                 <Form.File
                 id="image"
-                name="image"
+                name="userPicture"
                 label="Select image for Profile picture"
                 onChange={handleImage}/>
             </FormGroup>

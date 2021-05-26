@@ -75,6 +75,7 @@ class UserRegisterForm extends Component {
         });
     }
 
+
     handleSubmit = async (event) => {
         event.preventDefault();
         const errors = this.validateUserRegister();

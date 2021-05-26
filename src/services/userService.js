@@ -81,7 +81,7 @@ export function registerUserAdmin(user){
 }
 
 //Retrieving single User object from DB - admin rights only
-export function gerUserAdmin(userId){
+export function getUserAdmin(userId){
     return httpService
         .get(userUrl(userId),{
             headers:{
