@@ -19,6 +19,7 @@ class UserAllList extends Component {
         this.setState({
             users
         });
+        console.log(users);
     }
 
 
