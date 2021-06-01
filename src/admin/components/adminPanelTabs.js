@@ -14,6 +14,14 @@ const table = [
         link1To: '/admin/userregister',
         link2Name: 'All Users list',
         link2To: '/admin/userlist'
+    },
+    {
+        _id: 3,
+        name: 'Recipes',
+        link1Name: 'Create',
+        link1To: '/admin/reciperegister',
+        link2Name: 'All Recipes list',
+        link2To: '/admin/recipelist'
     }
 ]
 
