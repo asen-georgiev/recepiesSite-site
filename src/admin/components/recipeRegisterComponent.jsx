@@ -9,6 +9,10 @@ function RecipeRegisterComponent(props) {
     return (
         <Form onSubmit={handleSubmit}>
             <FormGroup>
+                {errors.recipeTitle &&
+                <FormLabel>
+                    {errors.recipeTitle}
+                </FormLabel>}
                 <FormControl
                     autoFocus={true}
                     name="recipeTitle"
@@ -19,6 +23,10 @@ function RecipeRegisterComponent(props) {
                 />
             </FormGroup>
             <FormGroup>
+                {errors.recipeText &&
+                <FormLabel>
+                    {errors.recipeText}
+                </FormLabel>}
                 <FormControl
                     as="textarea"
                     name="recipeText"
@@ -29,6 +37,10 @@ function RecipeRegisterComponent(props) {
                 />
             </FormGroup>
             <FormGroup>
+                {errors.recipeType &&
+                <FormLabel>
+                    {errors.recipeType}
+                </FormLabel>}
                 <FormControl
                     name="recipeType"
                     placeholder="Enter Recipe's type"
@@ -38,6 +50,10 @@ function RecipeRegisterComponent(props) {
                 />
             </FormGroup>
             <FormGroup>
+                {errors.recipeProducts &&
+                <FormLabel>
+                    {errors.recipeProducts}
+                </FormLabel>}
                 <FormControl
                     as="textarea"
                     name="recipeProducts"
@@ -48,7 +64,12 @@ function RecipeRegisterComponent(props) {
                 />
             </FormGroup>
             <FormGroup>
+                {errors.recipeBGLanguage &&
+                <FormLabel>
+                    {errors.recipeBGLanguage}
+                </FormLabel>}
                 <FormCheck
+                    checked={recipe.recipeBGLanguage}
                     label="Bulgarian language"
                     name="recipeBGLanguage"
                     type="checkbox"
@@ -57,7 +78,12 @@ function RecipeRegisterComponent(props) {
                 />
             </FormGroup>
             <FormGroup>
+                {errors.recipeENLanguage &&
+                <FormLabel>
+                    {errors.recipeENLanguage}
+                </FormLabel>}
                 <FormCheck
+                    checked={recipe.recipeENLanguage}
                     label="English language"
                     name="recipeENLanguage"
                     type="checkbox"
@@ -65,6 +91,10 @@ function RecipeRegisterComponent(props) {
                     onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
+                {errors.recipePictures &&
+                <FormLabel>
+                    {errors.recipePictures}
+                </FormLabel>}
                 <Form.File
                     label="Maximum images allowed to upload: 10 (not mandatory)"
                     multiple

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import Joi from 'joi';
+import Joi from "joi";
 import RecipeRegisterComponent from "../components/recipeRegisterComponent";
-import {toast, Zoom} from "react-toastify";
 import {Button, Image} from "react-bootstrap";
-import {createRecipeAdmin} from "../../services/recipeService";
+import {getRecipe, updateRecipeAdmin} from "../../services/recipeService";
+import {toast, Zoom} from "react-toastify";
+import {picUrl} from "../../config.json";
 import {uploadImageAdmin} from "../../services/imageService";
 
-class RecipeRegisterForm extends Component {
+class RecipeUpdateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,12 +22,12 @@ class RecipeRegisterForm extends Component {
             },
             errors: {},
             isDisabled: true,
+            url: null,
             uploadedPictures: null,
             visiblePictures: null
         }
     }
 
-    //Validating schema
     schema = Joi.object({
         recipeTitle: Joi.string()
             .required()
@@ -63,19 +64,25 @@ class RecipeRegisterForm extends Component {
     })
 
 
-    //Redirecting back to Admin panel with history push prop
     adminRedirect = () => {
-        this.props.history.push("/admin");
+        this.props.history.push("/admin/recipelist");
     }
 
 
-    //Handling the input event from the Recipe create input form
+    async componentDidMount() {
+        const url = picUrl;
+        await this.populateRecipeForm();
+        this.setState({url});
+    }
+
+
     handleChange = (event) => {
-        const recipe = {...this.state.recipe}
+        const recipe = {...this.state.recipe};
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        recipe[name] = value;
+        recipe [name] = value;
+
         this.setState({
             recipe,
             isDisabled: false
@@ -83,7 +90,6 @@ class RecipeRegisterForm extends Component {
     }
 
 
-    //Handling the pictures upload Event for the Recipe - multiple pics selection
     handleImages = (event) => {
 
         if (this.maxSelectedImages(event)) {
@@ -104,21 +110,34 @@ class RecipeRegisterForm extends Component {
                 uploadedPictures: event.target.files,
                 isDisabled: false
             });
-            console.log(recipeFiles);
+            console.log(event.target.files);
         }
     }
 
-
-    //Handling the submit form event
     handleSubmit = async (event) => {
         event.preventDefault();
-        const errors = this.validateRecipeInput();
-        this.setState({
-            errors: errors || {}
-        });
+        const errors = this.validateRecipeUpdate();
+        this.setState({errors: errors || {}});
         if (errors) return;
 
-        //First registering the Recipe object.
+        if (this.state.uploadedPictures !== null) {
+            try {
+                const data = new FormData();
+
+                for (let image of this.state.uploadedPictures) {
+                    data.append('file', image);
+                }
+                await uploadImageAdmin(data);
+                toast('Images were successfully uploaded!', {
+                    position: "top-center",
+                    transition: Zoom
+                });
+            } catch (error) {
+                if (error.response) console.log(error.response.statusText);
+            }
+        }
+
+
         const recipe = {
             recipeTitle: this.state.recipe.recipeTitle,
             recipeText: this.state.recipe.recipeText,
@@ -127,40 +146,38 @@ class RecipeRegisterForm extends Component {
             recipeProducts: this.state.recipe.recipeProducts,
             recipeBGLanguage: this.state.recipe.recipeBGLanguage,
             recipeENLanguage: this.state.recipe.recipeENLanguage
-        }
-        await createRecipeAdmin(recipe);
+        };
 
-        toast.success("Recipe successfully created!", {
-            position: "top-center",
+        toast('Recipe updated successfully!', {
+            position: 'top-center',
             transition: Zoom
         });
-
-        //If Recipe object is successfully created then uploading the pictures to gallery
-        if (this.state.uploadedPictures !== null) {
-
-            const data = new FormData();
-
-            for (let image of this.state.uploadedPictures) {
-                data.append('file', image);
-            }
-            await uploadImageAdmin(data);
-            toast('Images were successfully uploaded!', {
-                position: "top-center",
-                transition: Zoom
-            });
-        }
-
         this.setState({
             isDisabled: true
         });
+        await updateRecipeAdmin(recipe, this.state.recipe._id);
+
     }
 
 
-    //Defining the maximum uploaded files amount, if amount is bigger than allowed - returning false;
+    mapToViewModel(recipe) {
+        return {
+            _id: recipe._id,
+            recipeTitle: recipe.recipeTitle,
+            recipeText: recipe.recipeText,
+            recipeType: recipe.recipeType,
+            recipePictures: recipe.recipePictures,
+            recipeProducts: recipe.recipeProducts,
+            recipeBGLanguage: recipe.recipeBGLanguage,
+            recipeENLanguage: recipe.recipeENLanguage
+        };
+    }
+
+
     maxSelectedImages = (event) => {
         let files = event.target.files;
         if (files.length > 10) {
-            toast.error("Only 10 images allowed to upload!", {
+            toast.error('Only 10 images allowed to upload!', {
                 position: "top-center",
                 transition: Zoom
             });
@@ -171,8 +188,22 @@ class RecipeRegisterForm extends Component {
     }
 
 
-    //Validating the input form values via Joi schema validation
-    validateRecipeInput = () => {
+    async populateRecipeForm() {
+        try {
+            const recipeId = this.props.match.params.id;
+            const {data: recipe} = await getRecipe(recipeId);
+            this.setState({recipe: this.mapToViewModel(recipe)});
+        } catch (error) {
+            if (error.response && error.response.status === 404)
+                toast.error('There is no Recipe with the given ID', {
+                    position: "top-center",
+                    transition: Zoom
+                });
+        }
+    }
+
+
+    validateRecipeUpdate = () => {
         const recipe = {
             recipeTitle: this.state.recipe.recipeTitle,
             recipeText: this.state.recipe.recipeText,
@@ -181,11 +212,9 @@ class RecipeRegisterForm extends Component {
             recipeProducts: this.state.recipe.recipeProducts,
             recipeBGLanguage: this.state.recipe.recipeBGLanguage,
             recipeENLanguage: this.state.recipe.recipeENLanguage
-        }
-
+        };
         const options = {abortEarly: false};
         const result = this.schema.validate(recipe, options);
-
         if (!result.error) return null;
 
         const errors = {};
@@ -201,25 +230,39 @@ class RecipeRegisterForm extends Component {
             <div>
                 <Button
                     onClick={this.adminRedirect}>
-                    BACK TO ADMIN PANEL
+                    BACK TO RECIPE LIST
                 </Button>
                 <RecipeRegisterComponent
                     recipe={this.state.recipe}
-                    handleChange={this.handleChange}
-                    handleImages={this.handleImages}
                     handleSubmit={this.handleSubmit}
+                    handleImages={this.handleImages}
+                    handleChange={this.handleChange}
                     errors={this.state.errors}
                     isDisabled={this.state.isDisabled}/>
-                {this.state.visiblePictures && this.state.visiblePictures.map(pic => {
+
+                {this.state.visiblePictures === null &&
+                this.state.recipe.recipePictures.map(pic => {
                     return (
                         <Image
-                        src={pic}
-                        style={{width:100, height:'auto'}}/>
+                            key={pic}
+                            src={this.state.url + pic}
+                            style={{width: 300, height: "auto"}}/>
                     )
                 })}
+
+                {this.state.visiblePictures &&
+                this.state.visiblePictures.map(pic => {
+                    return (
+                        <Image
+                            key={pic}
+                            src={pic}
+                            style={{width: 300, height: "auto"}}/>
+                    )
+                })}
+
             </div>
         );
     }
 }
 
-export default RecipeRegisterForm;
+export default RecipeUpdateForm;

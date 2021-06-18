@@ -123,7 +123,7 @@ class UserUpdateForm extends Component {
                 });
             }
             catch (error) {
-                if(error.response) console.log(error.response.statusText)
+                if(error.response) console.log(error.response.statusText);
             }
         }
 
@@ -187,7 +187,7 @@ class UserUpdateForm extends Component {
             userTelephone: this.state.user.userTelephone
         };
         const options = {abortEarly: false};
-        const result = this.schema.validate(user);
+        const result = this.schema.validate(user,options);
         if (!result.error) return null;
 
         const errors = {};
