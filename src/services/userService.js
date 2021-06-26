@@ -48,6 +48,16 @@ export function updateUser(user,userId){
                 'x-auth-token': getCurrentUser()
             }
         })
+        .then(response => {
+            if(response.data){
+                localStorage.setItem("user",response.data);
+            }
+            return response.data
+        })
+        .catch(error => {
+            toast.error(error.response.data);
+            return Promise.reject(error);
+        })
 }
 
 //Deleting single User object from the DB - user rights only
@@ -65,8 +75,6 @@ export function updateUserPassword(userEmail){
     return httpService
         .put(apiEndPoint+"/passupdate",userEmail);
 }
-
-
 
 
 

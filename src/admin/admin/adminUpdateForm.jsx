@@ -65,7 +65,7 @@ class AdminUpdateForm extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        admin [name] = value;
+        admin[name] = value;
         this.setState({
             admin,
             isDisabled: false

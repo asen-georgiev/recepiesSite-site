@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from "react-bootstrap";
 import Joi from "joi";
-import {toast,Zoom} from "react-toastify";
+import {toast, Zoom} from "react-toastify";
 import AdminRegisterComponent from "../components/adminRegisterComponent";
 import {registerAdmin} from "../../services/adminService";
 
@@ -52,7 +52,7 @@ class AdminRegisterForm extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        admin [name] = value;
+        admin[name] = value;
 
         this.setState({
             admin,
@@ -65,9 +65,9 @@ class AdminRegisterForm extends Component {
         event.preventDefault();
         const errors = this.validateAdminInput();
         this.setState({
-            errors:errors || {}
+            errors: errors || {}
         });
-        if(errors) return;
+        if (errors) return;
 
         const admin = {
             adminName: this.state.admin.adminName,
@@ -78,7 +78,7 @@ class AdminRegisterForm extends Component {
 
         await registerAdmin(admin);
 
-        toast('Admin registration was successful!',{
+        toast('Admin registration was successful!', {
             position: "top-center",
             transition: Zoom
         });
@@ -112,7 +112,6 @@ class AdminRegisterForm extends Component {
     adminRedirect = () => {
         this.props.history.push('/admin');
     }
-
 
 
     render() {

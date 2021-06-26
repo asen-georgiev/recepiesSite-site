@@ -10,6 +10,18 @@ function RecipeTableComponent(props) {
 
     return (
         <Table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Recipe</th>
+                <th>Type</th>
+                <th>Pictures</th>
+                <th>Products</th>
+                <th>Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
             <tbody>
             {recipes.map((recipe, index) => {
                 return (

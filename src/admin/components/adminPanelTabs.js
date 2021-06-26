@@ -22,6 +22,14 @@ const table = [
         link1To: '/admin/reciperegister',
         link2Name: 'All Recipes list',
         link2To: '/admin/recipelist'
+    },
+    {
+        _id:4,
+        name: 'Comments',
+        link1Name: 'N/A',
+        link1To: 'N/A',
+        link2Name: 'All Comments list',
+        link2To: '/admin/commentlist'
     }
 ]
 

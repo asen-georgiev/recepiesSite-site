@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col,Row,Form,FormGroup,FormControl,Button,FormLabel} from "react-bootstrap";
+import {Row,Form,FormGroup,FormControl,Button,FormLabel} from "react-bootstrap";
 import * as PropTypes from 'prop-types';
 
 
