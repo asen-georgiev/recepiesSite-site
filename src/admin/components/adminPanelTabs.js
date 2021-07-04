@@ -24,12 +24,20 @@ const table = [
         link2To: '/admin/recipelist'
     },
     {
-        _id:4,
+        _id: 4,
         name: 'Comments',
         link1Name: 'N/A',
         link1To: 'N/A',
         link2Name: 'All Comments list',
         link2To: '/admin/commentlist'
+    },
+    {
+        _id: 5,
+        name: 'Emails',
+        link1Name: 'N/A',
+        link1To: 'N/A',
+        link2Name: 'All Emails list',
+        link2To: '/admin/emaillist'
     }
 ]
 

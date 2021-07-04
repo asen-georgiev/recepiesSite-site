@@ -37,14 +37,14 @@ function TableComponent(props) {
                     <td>
                         <Link
                             to={`${url}${item._id}`}>
-                            UPDATE
+                            Update
                         </Link>
                     </td>
 
                     <td>
                         <Button
                             onClick={() => handleDelete(item)}>
-                            DELETE
+                            Delete
                         </Button>
                     </td>
 

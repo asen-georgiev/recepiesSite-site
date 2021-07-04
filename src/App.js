@@ -17,6 +17,7 @@ import UserUpdateForm from "./admin/user/userUpdateForm";
 import RecipeRegisterForm from "./admin/recipe/recipeRegisterForm";
 import RecipeAllList from "./admin/recipe/recipeAllList";
 import RecipeUpdateForm from "./admin/recipe/recipeUpdateForm";
+import EmailAllList from "./admin/email/emailAllList";
 
 class App extends Component {
     constructor(props) {
@@ -47,6 +48,7 @@ class App extends Component {
                         <Route path="/admin/adminregister" component={AdminRegisterForm}/>
                         <Route path="/admin/adminupdate/:id" component={AdminUpdateForm}/>
                         <Route path="/admin/commentlist" component={CommentAllList}/>
+                        <Route path="/admin/emaillist" component={EmailAllList}/>
                         <Route path="/admin/userlist" component={UserAllList}/>
                         <Route path="/admin/userregister" component={UserRegisterForm}/>
                         <Route path="/admin/userupdate/:id" component={UserUpdateForm}/>
